@@ -1,6 +1,7 @@
 "
 Covid19 new grafCovid: 'cases'.
 Covid19 new grafCovid: 'deaths'.
+Covid19 new tabCovid.   inspect data 'all'
 
 country,
 country_code,
@@ -50,41 +51,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-Covid19 >> grafCovid [
-
-|chart color b  covCases|
-
-color := NSScale category20.
-"Build the visualization"
-
-covCases := self loadCzechiaData: 'cases'.
-yValues := self prepareY: covCases.
-xValues := self prepareX: covCases.
-
-
-chart := RSChart new.
-chart extent: 600 @ 600.
-chart colors: color.
-yValues  do: [ :datac | chart addPlot:(RSLinePlot new x: xValues  y: datac) ].
-chart xlabel: 'Weeks ago'.
-chart ylabel: 'Contaminated '.
-chart title: 'Coronavirus cases weekly'.
-chart addDecoration: (RSHorizontalTick new  fontSize: 10).
-chart addDecoration: (RSVerticalTick new integerWithCommas; fontSize: 10).
-chart ySqrt.
-chart build.
-
-b := RSLegend new.
-b container: chart canvas.
-"countries with: chart plots do: [ :c : p |
-	b text: c withBoxColor: (chart colorFor: p) ].
-b layout horizontal gapSize: 30."
-b build.
-b canvas open
-
-]
-
-{ #category : #'as yet unclassified' }
 Covid19 >> grafCovid: aCases [
 
 |chart color b  covCases|
@@ -118,7 +84,7 @@ b canvas open
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Covid19 >> loadCzechiaData: aIndikator [
   |c d dataFrame colDataFrame dataCz|
 c := (ZnEasy get: 'https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv') contents.
@@ -128,8 +94,12 @@ dataFrame := DataFrame readFromCsv: d withSeparator: $,.
 colDataFrame := dataFrame columns: #('country' 'indicator' 'weekly_count' 'year_week').
 dataCz := colDataFrame select:
 	   [ :row | row first = ' Czechia'  ].
-data := dataCz select: 
-     	[ :row | row second  = aIndikator ] .
+(aIndikator = 'all')
+     ifFalse: 
+        [ data := dataCz select: 
+     	  [ :row | row second  = aIndikator ]]
+     ifTrue: 
+        [  data := dataCz ] .
 ^ data.   
 ]
 
@@ -155,4 +125,18 @@ allDataSum := OrderedCollection new.
 allDataSum add: dataSum. "od nestarsi polozky ukladam tydenni prirustky"
  yValues := allDataSum.
 ^ yValues.
+]
+
+{ #category : #'as yet unclassified' }
+Covid19 >> tabCovid [
+
+|covCases|
+
+covCases := 'all'.
+"Build the visualization"
+covCases := self loadCzechiaData: covCases.
+yValues := self prepareY: covCases.
+xValues := self prepareX: covCases.
+
+data inspect.
 ]
