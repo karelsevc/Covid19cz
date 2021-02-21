@@ -1,4 +1,6 @@
 "
+github spojeno ok
+
 Covid19 new grafCovid: 'cases'.
 Covid19 new grafCovid: 'deaths'.
 Covid19 new tabCovid.   inspect data 'all'
@@ -88,7 +90,7 @@ b canvas open
 
 { #category : #accessing }
 Covid19 >> loadCzechiaData: aIndikator [
-
+"Nahrani dat z www a vyfiltrovani Czechia"
   |c d dataFrame colDataFrame dataCz|
 
 c := (ZnEasy get: 'https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv') contents.
