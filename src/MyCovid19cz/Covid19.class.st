@@ -3,6 +3,8 @@ Covid19 new grafCovid: 'cases'.
 Covid19 new grafCovid: 'deaths'.
 Covid19 new tabCovid.   inspect data 'all'
 
+data z Evropského střediska pro prevenci a kontrolu nemocí (European Centre for Disease Prevention and Control, ECDC)
+
 country,
 country_code,
 continent,
@@ -86,7 +88,9 @@ b canvas open
 
 { #category : #accessing }
 Covid19 >> loadCzechiaData: aIndikator [
+
   |c d dataFrame colDataFrame dataCz|
+
 c := (ZnEasy get: 'https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv') contents.
 c := ZnCharacterEncoder  utf8  decodeBytes: c.
 d := c copyReplaceAll: String crlf  with: String lf,' '.
@@ -94,12 +98,18 @@ dataFrame := DataFrame readFromCsv: d withSeparator: $,.
 colDataFrame := dataFrame columns: #('country' 'indicator' 'weekly_count' 'year_week').
 dataCz := colDataFrame select:
 	   [ :row | row first = ' Czechia'  ].
+	
+"data := dataCz select: [ :row | row second  = aIndikator ].	"
+"(aIndikator = 'all') ifTrue: [  data := dataCz ] ."
+
 (aIndikator = 'all')
      ifFalse: 
         [ data := dataCz select: 
      	  [ :row | row second  = aIndikator ]]
      ifTrue: 
         [  data := dataCz ] .
+
+
 ^ data.   
 ]
 
