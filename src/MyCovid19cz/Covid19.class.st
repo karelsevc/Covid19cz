@@ -91,7 +91,7 @@ b canvas open
 { #category : #accessing }
 Covid19 >> loadCzechiaData: aIndikator [
 "Nahrani dat z www a vyfiltrovani Czechia"
-  |c d dataFrame colDataFrame dataCz|
+  | c d dataFrame colDataFrame dataCz |
 
 c := (ZnEasy get: 'https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/csv') contents.
 c := ZnCharacterEncoder  utf8  decodeBytes: c.
@@ -100,18 +100,13 @@ dataFrame := DataFrame readFromCsv: d withSeparator: $,.
 colDataFrame := dataFrame columns: #('country' 'indicator' 'weekly_count' 'year_week').
 dataCz := colDataFrame select:
 	   [ :row | row first = ' Czechia'  ].
-	
-"data := dataCz select: [ :row | row second  = aIndikator ].	"
-"(aIndikator = 'all') ifTrue: [  data := dataCz ] ."
+
+data := dataCz .
 
 (aIndikator = 'all')
      ifFalse: 
-        [ data := dataCz select: 
-     	  [ :row | row second  = aIndikator ]]
-     ifTrue: 
-        [  data := dataCz ] .
-
-
+        [ data := dataCz select: [ :row | row second  = aIndikator ]].
+ 
 ^ data.   
 ]
 
