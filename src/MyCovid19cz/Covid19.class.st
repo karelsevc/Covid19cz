@@ -25,23 +25,6 @@ Afghanistan,AFG,Asia,38928341,cases,0,2020-03,0,0,""Epidemic intelligence, natio
 
 Stahovatelný datový soubor obsahuje informace o 14denní míře hlášení nově hlášených případů COVID-19 na 100 000 obyvatel a 14denní míře hlášení hlášených úmrtí na milion obyvatel podle týdne a země. Každý řádek obsahuje odpovídající údaje pro určitý den a pro každou zemi. Soubor se aktualizuje každý týden. Data můžete používat v souladu se zásadami autorských práv ECDC.
 
-
-
-Public API and Key Messages
-
-- message one   
-- message two 
-- (for bonus points) how to create instances.
-
-   One simple example is simply gorgeous.
- 
-Internal Representation and Key Implementation Points.
-
-    Instance Variables
-	data:		<Object>
-
-
-    Implementation Points
 "
 Class {
 	#name : #Covid19,
